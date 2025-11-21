@@ -1,5 +1,5 @@
 import cv2
-from utils import load_model
+from src.utils import load_model
 
 class DroneDetection:
     def __init__(self, model_path):
