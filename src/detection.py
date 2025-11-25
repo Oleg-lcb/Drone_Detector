@@ -56,6 +56,23 @@ class DroneDetection:
         detections = []
         frame_number = 0
 
+        # # Пераметры для сохранения видеофайла
+        # output_path = "output.mp4"
+        # fps_v = cap.get(cv.CAP_PROP_FPS)
+        # frame_width = 640
+        # frame_height = 480
+        # frame_width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
+        # frame_height = int(cap.get(cv.CAP_PROP_FRAME_HEIGHT))
+
+        # # Создание объекта VideoWriter
+        # fourcc = cv.VideoWriter_fourcc(*'mp4v')
+        # out = cv.VideoWriter(output_path, fourcc, fps_v, (frame_width, frame_height))
+
+        # if not out.isOpened():
+        #     print("Ошибка при создании файла")
+        #     cap.release()
+        #     exit()
+
         while cap.isOpened():
             success, frame = cap.read()
             if success:
@@ -101,6 +118,7 @@ class DroneDetection:
                     })
 
                 frame_number += 1
+                # out.write(annotated_frame)
 
                 if cv.waitKey(1) & 0xFF == ord("q"):
                     break
@@ -108,6 +126,7 @@ class DroneDetection:
                 break
 
         cap.release()
+        # out.release()
         cv.destroyAllWindows()
         return json.dumps(detections, indent=4)
 
