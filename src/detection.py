@@ -1,16 +1,16 @@
 import json
-
+import torch
 import cv2 as cv
-from sympy.printing.pretty.pretty_symbology import annotated
 
-from src.utils import load_model
+from src.utils import load_model, path_to_tensor
 
 class DroneDetection:
     def __init__(self, model_path):
-        self.model = load_model(model_path)
+        self.model = load_model(model_path).to(device='cuda')
 
     # Обнаружение на изображении
     def detect_image(self, source):
+        source = path_to_tensor(source)
         results = self.model.predict(source)
 
         # Список всех детекций
@@ -48,7 +48,6 @@ class DroneDetection:
 
     # Обнаружения на видеофайле
     def detect_video(self, source):
-
         # Открытие видео
         cap = cv.VideoCapture(source)
 
@@ -76,6 +75,7 @@ class DroneDetection:
         while cap.isOpened():
             success, frame = cap.read()
             if success:
+                frame = path_to_tensor(frame)
                 # Запуск отслеживания с сохранением между кадрами
                 results = self.model.track(frame, persist=True, conf=0.6)
 

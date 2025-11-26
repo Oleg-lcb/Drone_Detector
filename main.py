@@ -1,9 +1,7 @@
 import argparse
 import os.path
-import cv2 as cv
 
 from src.detection import DroneDetection
-from src.utils import load_model
 
 
 if __name__ == '__main__':
