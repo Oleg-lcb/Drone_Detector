@@ -25,5 +25,10 @@ if __name__ == '__main__':
             result = detector.detect_video(source=args.source)
             print(result)
 
+        elif args.source[len(args.source) - 3:len(args.source)] == 'cam':
+            result = detector.detect_video(source=0)
+            print(result)
+
+
 
 

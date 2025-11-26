@@ -77,7 +77,7 @@ class DroneDetection:
             success, frame = cap.read()
             if success:
                 # Запуск отслеживания с сохранением между кадрами
-                results = self.model.track(frame, persist=True)
+                results = self.model.track(frame, persist=True, conf=0.6)
 
                 # Обработка данных обнаружения на одном кадре
                 frame_detections = []
@@ -129,5 +129,4 @@ class DroneDetection:
         # out.release()
         cv.destroyAllWindows()
         return json.dumps(detections, indent=4)
-
 
