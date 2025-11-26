@@ -1,5 +1,4 @@
 import json
-import torch
 import cv2 as cv
 
 from src.utils import load_model, path_to_tensor
@@ -13,9 +12,6 @@ class DroneDetection:
         source = path_to_tensor(source)
         results = self.model.predict(source)
 
-        # Список всех детекций
-        detections = []
-
         # Обработка данных обнаружения на одном кадре
         frame_detections = []
         for result in results:
@@ -27,7 +23,7 @@ class DroneDetection:
                 confidence = float(box.conf[0])
 
                 # Сохранение данных обнаружения на одном кадре
-                detections.append({
+                frame_detections.append({
                     "class_id": class_id,
                     "class_name": class_name,
                     "confidence": confidence,
@@ -42,7 +38,7 @@ class DroneDetection:
         # Вывод изображения на экран
         cv.imshow('drone', results[0].plot())
         cv.waitKey(0)
-        return json.dumps(detections)
+        return json.dumps(frame_detections)
 
 
 
@@ -114,7 +110,7 @@ class DroneDetection:
                 for detection in frame_detections:
                     detections.append({
                         "frame_number": frame_number,
-                        "detections": frame_detections
+                        "detections": detection
                     })
 
                 frame_number += 1
